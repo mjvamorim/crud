@@ -17,8 +17,10 @@ class CrudServiceProvider extends ServiceProvider
         
 
         //Migrations
-        //$this->loadMigrationsFrom(__DIR__.'/migrations');
-        $this->publishes([__DIR__.'/example/migrations' => database_path('migrations/'),],'migrations');
+        $this->publishes([__DIR__.'/database/migrations' => database_path('migrations/'),],'migrations');
+        
+        //Seeds
+        $this->publishes([__DIR__.'/database/seeds' => database_path('seeds/'),],'seeds');
 
         //Config
         $this->publishes([__DIR__.'/config/crud.php' => config_path('crud.php'), ],'config');

@@ -1,5 +1,5 @@
-#Tenant  1.0.1
-This package provider a database tenant soluction which database connection is choice based on company/user select on login;
+#Crud  1.0.1
+This is based on datatables 
 
 Add to your composer.json
  "repositories": [
@@ -11,22 +11,41 @@ Add to your composer.json
             }
         },
 
-cd packages
+cd packages/mjvamorim
+
 git clone https://github.com/mjvamorim/crud.git
 
+cd ../..
+
 composer require mjvamorim/crud
+
+Add in your config/app.php
+
+    Amorim\Crud\CrudServiceProvider::class,
+       
+
+
+
 composer update
 
 php artisan config:cache
-php artisan vendor:publish --provider="Amorim\Crud\CrudServiceProvider"
+
 
 Edit "/config/crud.php" and put your modelName and full_Qualifier_Class
+
 ex:
-return [
-    'doctor' => 'App\Models\Doctor',
-    'user' => 'App\User',
-    'yourmodel' => 'App\YourModel',
-];
+
+    return [
+        'example' => 'Amorim\Crud\Models\Example',
+        'user' => 'App\User',
+        'yourmodel' => 'App\YourModel',
+    ];
+
+
+php artisan migrate
+php artisan db:seed --class=ExamplesTableSeeder
 
 Run your app and call this route
+
 http://your_site/crud/yourmodel
+
