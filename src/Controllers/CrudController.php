@@ -20,10 +20,12 @@ class CrudController extends Controller
 
     function index($model)
     {
-        
         $class = config('crud.'.$model);
-        $showables  = $class::getShowableFields();
-        return view('crud::crudview',compact('showables','model'));
+        if (class_exists($class)) {
+            $showables  = $class::getShowableFields();
+            return view('crud::crudview',compact('showables','model'));
+        }
+        return redirect('/home'); 
     }
 
     function getData($model)

@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web','auth','tenant']], function () {
 
     // Route::get('crud/getdata/doctor', function () {
     //     return view('crud::index');

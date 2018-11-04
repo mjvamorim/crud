@@ -13,7 +13,12 @@ class CreateExamplesTable extends Migration
      */
     public function up()
     {
-        Schema::create('examples', function (Blueprint $table) {
+        $database = config('tenant.connections.tenant.database');
+        $sql = 'create database if not exists '.$database;
+        DB::statement($sql);
+        Schema::dropIfExists($database.'.examples');
+        Schema::create($database.'.examples', 
+          function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             //Contacts
@@ -42,6 +47,7 @@ class CreateExamplesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        $database = config('tenant.connections.tenant.database');
+        Schema::dropIfExists($database.'.examples');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Amorim\Crud\Seeds;
+namespace Amorim\Crud\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -8,7 +8,7 @@ use Faker\Factory as Faker;
 use Amorim\Crud\Models\Example;
 
 
-class ExamplesTableSeeder extends Seeder
+class ExamplesSeeder extends Seeder
 {
     public function run()
     {
