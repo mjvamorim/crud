@@ -19,9 +19,9 @@ class Example extends BaseModelTenant
     protected $showable = [
         ['name'=>'id',           'title'=>'Id',          'datatable'=>'false', 'form'=>'false', 'type'=>'id',   ],
         ['name'=>'name',         'title'=>'Nome',        'datatable'=>'true',  'form'=>'true',  'type'=>'text', ],
-        ['name'=>'email',        'title'=>'Email',       'datatable'=>'true',  'form'=>'true',  'type'=>'text', ],
-        ['name'=>'mobile',       'title'=>'Celular',     'datatable'=>'true',  'form'=>'true',  'type'=>'text', ], 
-        ['name'=>'phone',        'title'=>'phone',       'datatable'=>'true',  'form'=>'true',  'type'=>'text', ],
+        ['name'=>'email',        'title'=>'Email',       'datatable'=>'false',  'form'=>'true',  'type'=>'text', ],
+        ['name'=>'mobile',       'title'=>'Celular',     'datatable'=>'false',  'form'=>'true',  'type'=>'text', ], 
+        ['name'=>'phone',        'title'=>'Telefone',       'datatable'=>'true',  'form'=>'true',  'type'=>'text', ],
         ['name'=>'postal_code',  'title'=>'Cep',         'datatable'=>'false', 'form'=>'true',  'type'=>'text', ],
         ['name'=>'street',       'title'=>'Street',      'datatable'=>'false', 'form'=>'true',  'type'=>'text', ],
         ['name'=>'number',       'title'=>'Number',      'datatable'=>'false', 'form'=>'true',  'type'=>'text', ],
