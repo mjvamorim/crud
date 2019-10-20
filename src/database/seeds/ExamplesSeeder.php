@@ -13,7 +13,7 @@ class ExamplesSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1,200) as $index) {
+        foreach(range(1,2000) as $index) {
             Example::insert([
                 'name'        => $faker->name,
                 'email'       => $faker->freeEmail,

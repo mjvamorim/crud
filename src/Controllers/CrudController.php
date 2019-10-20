@@ -31,7 +31,7 @@ class CrudController extends Controller
     function getData($model)
     {
         $class = config('crud.'.$model);
-        $collection = $class::all();
+        $collection = $class::select();
         return DataTables::of($collection)
             ->addColumn('action', function($model){
                 $btedit = '<button class="btn edit" id="'.$model->id.'" title="Alterar" data-toggle="tooltip" ><i class="glyphicon glyphicon-edit"></i> </button>';
