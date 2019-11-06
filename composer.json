@@ -1,6 +1,6 @@
 {
     "name": "mjvamorim/crud",
-    "description": "Package to Choise Database Based on Company_id field",
+    "description": "Package to Create a Crud Datatable and Form Based on Model Atributes",
     "type": "library",
     "license": "MIT",
     "authors": [
