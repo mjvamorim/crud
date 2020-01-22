@@ -87,7 +87,21 @@
                                     @endisset
                                     />
                                 </div>
-                                @endif                               
+                                @endif        
+
+                                @if($field['type']=='select') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <select class="custom-select" name="{{$field['name']}}" id="{{$field['name']}}" >
+                                    @foreach ($field['options'] as $option)
+                                    <option value="{{$option['value']}}"> {{$option['label']}}</option>
+                                    @endforeach
+                                    
+                                    </select>
+                                </div>
+                                @endif                       
 
                             </div>
                             @endif
