@@ -60,11 +60,35 @@
                         <div id="formfields">
                             @foreach ($showables as $field)
                             @if($field['form']=='true') 
-                            <div id="form_input" class="form-group">
+                            <div id="form_input" class="row" style="margin-bottom: 10px;"> 
                                 @if($field['type']=='text') 
-                                <label>{{$field['title']}}</label>
-                                <input type="text" name="{{$field['name']}}" id="{{$field['name']}}" class="form-control" />
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control" type="text" name="{{$field['name']}}" id="{{$field['name']}}" 
+                                    @isset($field['mask']) 
+                                       onkeypress="$(this).mask('{{$field['mask']}}');"
+                                    @endisset
+                                    />
+                                </div>
                                 @endif
+
+                                @if($field['type']=='cep') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control" type="text" name="{{$field['name']}}" 
+                                        id="{{$field['name']}}" size="10" maxlength="9" 
+                                        onblur="pesquisacep(this.value);" 
+                                    @isset($field['mask']) 
+                                    onkeypress="$(this).mask('{{$field['mask']}}');"   
+                                    @endisset
+                                    />
+                                </div>
+                                @endif                               
+
                             </div>
                             @endif
                             @endforeach
@@ -107,6 +131,7 @@ $(document).ready(function() {
         $('#form_output').html('');
         $('#button_action').val('insert');
         $('#action').val('Add');
+        $('#id').val('0');
         $('#formfields').show();
         $('.modal-title').text('Add Data');
     });
