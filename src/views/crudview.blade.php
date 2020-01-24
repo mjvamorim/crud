@@ -97,11 +97,37 @@
                                     <select class="custom-select" name="{{$field['name']}}" id="{{$field['name']}}" >
                                     @foreach ($field['options'] as $option)
                                     <option value="{{$option['value']}}"> {{$option['label']}}</option>
-                                    @endforeach
-                                    
+                                    @endforeach              
                                     </select>
                                 </div>
-                                @endif                       
+                                @endif         
+
+                                @if($field['type']=='radio') 
+                                    <div class= "col-md-2">
+                                        <label>{{$field['title']}}</label>
+                                    </div>
+                                    <div class= "col-md-{{$field['size']}}">   
+                                    @foreach ($field['options'] as $option)
+                                        <br/>
+                                        <input class="form-check-input" type="radio" name="{{$field['name']}}" id="{{$field['name']}}" value="{{$option['value']}}">
+                                        <label > {{$option['label']}}</label>
+                                    @endforeach     
+                                    </div>         
+                                @endif      
+
+                                @if($field['type']=='fk') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <select class="custom-select" name="{{$field['name']}}" id="{{$field['name']}}" >
+                                    <option></option>
+                                    </select>
+                                </div>
+                                <div id="mensagem">
+             
+                                 </div>
+                                @endif                
 
                             </div>
                             @endif
@@ -125,6 +151,31 @@
 @section('js')
 <script>
 $(document).ready(function() {
+
+    //Carregar no onload da página
+    @foreach ($showables as $field)
+    @if($field['type']=='fk') 
+        var url = "/crud/getdata/{{$field['options']['model']}}";
+        $.ajax({
+            url: url,
+            method:'get',
+            dataType:'json',
+            success:function(data)
+            {
+                var option = '<option></option>';
+                for(var i = 0; i < data.recordsTotal; i++)
+                {
+                    option += '<option value="'+data.data[i].{{$field['options']['value']}}+'">'+data.data[i].{{$field['options']['label']}}+'</option>';
+                }
+                $('#uf').html(option).show();
+           }
+        })  
+    @endif
+    @endforeach
+
+
+     
+
     $('#dataTable').DataTable({
         "processing": true,
         "serverSide": true,
