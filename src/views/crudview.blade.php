@@ -74,6 +74,25 @@
                                 </div>
                                 @endif
 
+                                @if($field['type']=='date') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control" type="date" name="{{$field['name']}}" id="{{$field['name']}}"/>
+                                </div>
+                                @endif
+
+
+                                @if($field['type']=='money') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control money" type="text" name="{{$field['name']}}" id="{{$field['name']}}"  />
+                                </div>
+                                @endif
+
                                 @if($field['type']=='cep') 
                                 <div class= "col-md-2">
                                     <label>{{$field['title']}}</label>
@@ -152,6 +171,10 @@
 <script>
 $(document).ready(function() {
 
+
+
+    $(".money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:'.', affixesStay: false});
+
     //Carregar no onload da página
     @foreach ($showables as $field)
     @if($field['type']=='fk') 
@@ -167,14 +190,42 @@ $(document).ready(function() {
                 {
                     option += '<option value="'+data.data[i].{{$field['options']['value']}}+'">'+data.data[i].{{$field['options']['label']}}+'</option>';
                 }
-                $('#uf').html(option).show();
+                $('#{{$field['name']}}').html(option).show();
            }
         })  
+        
     @endif
     @endforeach
+    
 
+    function sortList(id) { 
+        var lb = document.getElementById(id); 
+        arrTexts = new Array(); 
+        arrValues = new Array(); 
+        arrOldTexts = new Array(); 
 
-     
+        for(i=0; i<lb.length; i++) 
+        { 
+            arrTexts[i] = lb.options[i].text; 
+            arrValues[i] = lb.options[i].value; 
+            arrOldTexts[i] = lb.options[i].text; 
+        } 
+
+        arrTexts.sort(); 
+
+        for(i=0; i<lb.length; i++) 
+        { 
+            lb.options[i].text = arrTexts[i]; 
+            for(j=0; j<lb.length; j++) 
+            { 
+                if (arrTexts[i] == arrOldTexts[j]) 
+                { 
+                    lb.options[i].value = arrValues[j]; 
+                    j = lb.length; 
+                } 
+            } 
+        } 
+    } 
 
     $('#dataTable').DataTable({
         "processing": true,
@@ -191,6 +242,13 @@ $(document).ready(function() {
     });
 
     $('#add_data').click(function(){
+        //Ordena os campos dos combobox 
+        @foreach ($showables as $field)
+        @if($field['type']=='fk') 
+        sortList('{{$field['name']}}');
+        @endif
+        @endforeach
+
         $('#formModal').modal('show');
         $('#formdata')[0].reset();
         $('#form_output').html('');
@@ -202,6 +260,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.edit', function(){
+        //Ordena os campos dos combobox 
+        @foreach ($showables as $field)
+        @if($field['type']=='fk') 
+        sortList('{{$field['name']}}');
+        @endif
+        @endforeach
+
         var id = $(this).attr("id");
         $('#form_output').html('');
         $('#formfields').show();
