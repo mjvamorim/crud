@@ -74,6 +74,16 @@
                                 </div>
                                 @endif
 
+                                @if($field['type']=='textarea') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <textarea class="form-control"  name="{{$field['name']}}" id="{{$field['name']}}" rows="3">
+                                    </textarea>
+                                </div>
+                                @endif
+
                                 @if($field['type']=='date') 
                                 <div class= "col-md-2">
                                     <label>{{$field['title']}}</label>
