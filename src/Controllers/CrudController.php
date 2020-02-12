@@ -32,6 +32,15 @@ class CrudController extends Controller
     {
         $class = config('crud.'.$model);
         $collection = $class::select();
+
+        //Tornar esse codigo dinâmico
+        if($model=='unidade') {
+            $collection = $class::select()
+            ->with(['proprietario'])
+            ->get();
+        }
+
+        
         return DataTables::of($collection)
             ->addColumn('action', function($model){
                 $btedit = '<button class="btn edit" id="'.$model->id.'" title="Alterar" data-toggle="tooltip" ><i class="glyphicon glyphicon-edit"></i> </button>';

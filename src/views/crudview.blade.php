@@ -183,7 +183,7 @@ $(document).ready(function() {
 
 
 
-    $(".money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:'.', affixesStay: false});
+    //$(".money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:',', affixesStay: true});
 
     //Carregar no onload da página
     @foreach ($showables as $field)
@@ -214,8 +214,7 @@ $(document).ready(function() {
         arrValues = new Array(); 
         arrOldTexts = new Array(); 
 
-        for(i=0; i<lb.length; i++) 
-        { 
+        for(i=0; i<lb.length; i++) { 
             arrTexts[i] = lb.options[i].text; 
             arrValues[i] = lb.options[i].value; 
             arrOldTexts[i] = lb.options[i].text; 
@@ -223,13 +222,10 @@ $(document).ready(function() {
 
         arrTexts.sort(); 
 
-        for(i=0; i<lb.length; i++) 
-        { 
+        for(i=0; i<lb.length; i++) { 
             lb.options[i].text = arrTexts[i]; 
-            for(j=0; j<lb.length; j++) 
-            { 
-                if (arrTexts[i] == arrOldTexts[j]) 
-                { 
+            for(j=0; j<lb.length; j++) { 
+                if (arrTexts[i] == arrOldTexts[j]) { 
                     lb.options[i].value = arrValues[j]; 
                     j = lb.length; 
                 } 
@@ -243,9 +239,18 @@ $(document).ready(function() {
         "ajax": "{{ url($get) }}",
         "columns":[
             @foreach ($showables as $field)
-            @if($field['datatable']=='true') 
-            { "data": "{{$field['name']}}" },
-            @endif
+              @if($field['datatable']=='true') 
+                  @switch($field['type'])
+                      @case('money')
+                          { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( ',', '.', 2, 'R$ ' )},
+                          @break
+                      @case('fk')
+                          { "data": "{{$field['options']['model']}}.{{$field['options']['label']}}" },
+                          @break;
+                      @default
+                          { "data": "{{$field['name']}}" },
+                  @endswitch
+              @endif
             @endforeach
             { "data": "action", orderable:false, searchable: false}
         ]    
@@ -292,7 +297,12 @@ $(document).ready(function() {
                 @if($field['form']=='true') 
                 $('#{{$field["name"]}}').val(data.{{$field["name"]}});
                 @endif
+                @if($field['type']=='money') 
+                $('#{{$field["name"]}}').maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:'.', affixesStay: false},data.{{$field["name"]}});
+                @endif
+
                 @endforeach
+
                 $('#id').val(id);
                 $('#formModal').modal('show');
                 $('#action').val('Edit');
