@@ -61,6 +61,7 @@
                             @foreach ($showables as $field)
                             @if($field['form']=='true') 
                             <div id="form_input" class="row" style="margin-bottom: 10px;"> 
+
                                 @if($field['type']=='text') 
                                 <div class= "col-md-2">
                                     <label>{{$field['title']}}</label>
@@ -99,10 +100,21 @@
                                     <label>{{$field['title']}}</label>
                                 </div>
                                 <div class= "col-md-{{$field['size']}}">   
-                                    <input class="form-control money" type="text" name="{{$field['name']}}" id="{{$field['name']}}"  />
+                                    <input class="form-control text-left" type="number" step="0.01" id="{{$field['name']}}" name="{{$field['name']}}"  >
+                                    
                                 </div>
                                 @endif
 
+                                @if($field['type']=='number') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control text-left" type="number" step="{{$field['step']}}" id="{{$field['name']}}" name="{{$field['name']}}"  >
+                                    
+                                </div>
+                                @endif
+                              
                                 @if($field['type']=='cep') 
                                 <div class= "col-md-2">
                                     <label>{{$field['title']}}</label>
@@ -181,9 +193,7 @@
 <script>
 $(document).ready(function() {
 
-
-
-    //$(".money").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:',', affixesStay: true});
+    
 
     //Carregar no onload da página
     @foreach ($showables as $field)
@@ -242,7 +252,7 @@ $(document).ready(function() {
               @if($field['datatable']=='true') 
                   @switch($field['type'])
                       @case('money')
-                          { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( ',', '.', 2, 'R$ ' )},
+                          { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', 2, 'R$ ' )},
                           @break
                       @case('fk')
                           { "data": "{{$field['options']['model']}}.{{$field['options']['label']}}" },
@@ -298,7 +308,8 @@ $(document).ready(function() {
                 $('#{{$field["name"]}}').val(data.{{$field["name"]}});
                 @endif
                 @if($field['type']=='money') 
-                $('#{{$field["name"]}}').maskMoney({prefix:'R$ ', allowNegative: true, thousands:'', decimal:'.', affixesStay: false},data.{{$field["name"]}});
+                //$('#{{$field["name"]}}').maskMoney('destroy');
+                //$('#{{$field["name"]}}').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'', decimal:'.', affixesStay: true},data.{{$field["name"]}});
                 @endif
 
                 @endforeach

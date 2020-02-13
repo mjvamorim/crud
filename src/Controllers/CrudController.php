@@ -32,13 +32,19 @@ class CrudController extends Controller
     {
         $class = config('crud.'.$model);
         $collection = $class::select();
-
-        //Tornar esse codigo dinâmico
-        if($model=='unidade') {
+        $showables  = $class::getShowableFields();
+        $clausulaWith = [];
+        foreach ($showables as $field) {
+            if (($field['type']=='fk') && ($field['datatable']=='true')) {
+                $clausulaWith[] = $field['options']['model'];
+            }
+        }
+        if (count($clausulaWith)>0) {
             $collection = $class::select()
-            ->with(['proprietario'])
+            ->with($clausulaWith)
             ->get();
         }
+
 
         
         return DataTables::of($collection)
