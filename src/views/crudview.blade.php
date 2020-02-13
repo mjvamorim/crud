@@ -249,17 +249,24 @@ $(document).ready(function() {
         "ajax": "{{ url($get) }}",
         "columns":[
             @foreach ($showables as $field)
-              @if($field['datatable']=='true') 
-                  @switch($field['type'])
-                      @case('money')
-                          { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', 2, 'R$ ' )},
-                          @break
-                      @case('fk')
-                          { "data": "{{$field['options']['model']}}.{{$field['options']['label']}}" },
-                          @break;
-                      @default
-                          { "data": "{{$field['name']}}" },
-                  @endswitch
+                @if($field['datatable']=='true') 
+                    @switch($field['type'])
+                    @case('money')
+                        { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', 2, 'R$ ' )},
+                        @break
+                    @case('number')
+                     
+                        <?php $x = strlen(strstr($field['step'],'.'))-1; ?>
+                        
+                        
+                        { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', {{$x}}, '' )},
+                        @break
+                    @case('fk')
+                        { "data": "{{$field['options']['model']}}.{{$field['options']['label']}}" },
+                        @break;
+                    @default
+                        { "data": "{{$field['name']}}" },
+                    @endswitch
               @endif
             @endforeach
             { "data": "action", orderable:false, searchable: false}
