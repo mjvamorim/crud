@@ -255,10 +255,7 @@ $(document).ready(function() {
                         { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', 2, 'R$ ' )},
                         @break
                     @case('number')
-                     
                         <?php $x = strlen(strstr($field['step'],'.'))-1; ?>
-                        
-                        
                         { "data": "{{$field['name']}}" ,render: $.fn.dataTable.render.number( '.', ',', {{$x}}, '' )},
                         @break
                     @case('fk')

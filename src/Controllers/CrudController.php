@@ -13,6 +13,8 @@ use DataTables;
 class CrudController extends Controller
 {   
 
+    private $actions;
+
     public function __construct()
     {
         $this->middleware('tenant');
@@ -33,6 +35,7 @@ class CrudController extends Controller
         $class = config('crud.'.$model);
         $collection = $class::select();
         $showables  = $class::getShowableFields();
+        $this->actions    = $class::getActions();
         $clausulaWith = [];
         foreach ($showables as $field) {
             if (($field['type']=='fk') && ($field['datatable']=='true')) {
@@ -49,9 +52,19 @@ class CrudController extends Controller
         
         return DataTables::of($collection)
             ->addColumn('action', function($model){
-                $btedit = '<button class="btn edit" id="'.$model->id.'" title="Alterar" data-toggle="tooltip" ><i class="glyphicon glyphicon-edit"></i> </button>';
-                $btdelt = '<button class="btn delt" id="'.$model->id.'" title="Apagar" data-toggle="tooltip" ><i class="glyphicon glyphicon-trash"></i> </button>';
-                return '<div align="center">'.$btedit.'<span> </span>'.$btdelt.'</div>';
+                if($this->actions == NULL) {
+                    $btedit = '<button class="btn edit" id="'.$model->id.'" title="Alterar" data-toggle="tooltip" ><i class="glyphicon glyphicon-edit"></i> </button>';
+                    $btdelt = '<button class="btn delt" id="'.$model->id.'" title="Apagar" data-toggle="tooltip" ><i class="glyphicon glyphicon-trash"></i> </button>';
+                    return '<div align="center">'.$btedit.'<span> </span>'.$btdelt.'</div>';
+                }
+                else {
+                    $text = '<div align="center">';
+                    foreach($this->actions as $action){
+                        $text .= $action['ini'].$model->id.$action['fim'];
+                    }
+                    $text .= '</div>';
+                    return $text;
+                }
             })
             ->make(true);
     }
