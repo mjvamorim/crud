@@ -11,10 +11,32 @@
 @section('content')
     {{-- List of model --}}
     {{ csrf_field() }}
-    @php($index = 'crud/'.$model)
-    @php($fetch = 'crud/fetchdata/'.$model)
-    @php($post  = 'crud/postdata/'.$model)
-    @php($get   = 'crud/getdata/'.$model)
+    <?php 
+    
+    $index = 'crud/'.$model;
+    $fetch = 'crud/fetchdata/'.$model;
+    $post  = 'crud/postdata/'.$model;
+    $get   = 'crud/getdata/'.$model;
+    
+    ?>
+     @if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="alert alert-success">
+            @if(is_array(session()->get('success')))
+            <ul>
+                @foreach (session()->get('success') as $message)
+                    <li>{{ $message }}</li>
+                @endforeach
+            </ul>
+            @else
+                {{ session()->get('success') }}
+            @endif
+        </div>
+    @endif
 
 
     <div class="box box-sucess">

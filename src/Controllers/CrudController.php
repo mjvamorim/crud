@@ -33,19 +33,31 @@ class CrudController extends Controller
     function getData($model)
     {
         $class = config('crud.'.$model);
-        $collection = $class::select();
         $showables  = $class::getShowableFields();
         $this->actions    = $class::getActions();
         $clausulaWith = [];
+        $clausulaWhere = [['id','>','0']];
         foreach ($showables as $field) {
             if (($field['type']=='fk') && ($field['datatable']=='true')) {
                 $clausulaWith[] = $field['options']['model'];
             }
         }
+        if (auth()->user()->type=='User'){
+            if($model=='user'){
+                $clausulaWhere[] = ['empresa_id',auth()->user()->empresa_id];
+            }
+            if($model=='empresa'){
+                $clausulaWhere[] = ['id',auth()->user()->empresa_id];
+            }
+        }
+       
         if (count($clausulaWith)>0) {
             $collection = $class::select()
             ->with($clausulaWith)
+            ->where($clausulaWhere)
             ->get();
+        } else {
+            $collection = $class::select()->where($clausulaWhere);
         }
 
 
