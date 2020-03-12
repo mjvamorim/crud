@@ -20,20 +20,20 @@ class CreateExamplesTable extends Migration
         Schema::create($database.'.examples', 
           function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',100);
             //Contacts
-            $table->string('email')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('email',100)->nullable();
+            $table->string('mobile',20)->nullable();
+            $table->string('phone',20)->nullable();
             //Address
-            $table->string('postal_code')->nullable();
-            $table->string('street')->nullable();
-            $table->string('number')->nullable();
-            $table->string('complement')->nullable();
-            $table->string('district')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->default('RJ')->nullable();
-            $table->string('country')->default('Brasil')->nullable();
+            $table->string('postal_code',20)->nullable();
+            $table->string('street',50)->nullable();
+            $table->string('number',20)->nullable();
+            $table->string('complement',50)->nullable();
+            $table->string('district',30)->nullable();
+            $table->string('city',30)->nullable();
+            $table->string('state',2)->default('RJ')->nullable();
+            $table->string('country',30)->default('Brasil')->nullable();
 
             
             $table->timestamps();

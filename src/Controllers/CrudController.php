@@ -20,17 +20,19 @@ class CrudController extends Controller
         $this->middleware('tenant');
     }
 
-    function index($model)
+    function index($model,Request $request)
     {
         $class = config('crud.'.$model);
         if (class_exists($class)) {
+            $filtro = $request->getQueryString();
             $showables  = $class::getShowableFields();
-            return view('crud::crudview',compact('showables','model'));
+            return view('crud::crudview',compact('showables','model','filtro'));
         }
+  
         return redirect('/home'); 
     }
 
-    function getData($model)
+    function getData($model,Request $request)
     {
         $class = config('crud.'.$model);
         $showables  = $class::getShowableFields();
@@ -49,6 +51,9 @@ class CrudController extends Controller
             if($model=='empresa'){
                 $clausulaWhere[] = ['id',auth()->user()->empresa_id];
             }
+        }
+        if ($request->getQueryString()) {
+            //$clausulaWhere[] = $request->query();
         }
        
         if (count($clausulaWith)>0) {

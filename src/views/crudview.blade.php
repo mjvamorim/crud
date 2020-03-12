@@ -16,7 +16,7 @@
     $index = 'crud/'.$model;
     $fetch = 'crud/fetchdata/'.$model;
     $post  = 'crud/postdata/'.$model;
-    $get   = 'crud/getdata/'.$model;
+    $get   = 'crud/getdata/'.$model.'?'.$filtro;
     
     ?>
      @if(session()->has('message'))
@@ -41,7 +41,7 @@
 
     <div class="box box-sucess">
         <div class="box-header">
-            <h3 class="box-title">{{ucwords($model)}}</h3>
+            <h3 class="box-title">{{ucwords($model)}} </h3>
             <div align="right">
                 <button name="add" id="add_data" class="edit-modal btn glyphicon glyphicon-plus-sign" title="Cadastrar novo item" data-toggle="tooltip"  > </button> 
             </div>
@@ -268,6 +268,8 @@ $(document).ready(function() {
     $('#dataTable').DataTable({
         "processing": true,
         "serverSide": true,
+        "dom": 'Bfrtip',
+        "buttons": ['copy', 'csv', 'excel', 'pdf'],
         "ajax": "{{ url($get) }}",
         "columns":[
             @foreach ($showables as $field)
