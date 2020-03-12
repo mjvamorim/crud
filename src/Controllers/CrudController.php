@@ -52,10 +52,24 @@ class CrudController extends Controller
                 $clausulaWhere[] = ['id',auth()->user()->empresa_id];
             }
         }
-        if ($request->getQueryString()) {
-            //$clausulaWhere[] = $request->query();
+
+        $url = $request->getQueryString();
+        foreach (explode('&', $url) as $chunk) {
+            $param = explode("=", $chunk);
+            if ($param && $param[0]=='proprietario_id') {
+                $clausulaWhere[] =  ['proprietario_id', urldecode($param[1])];
+            }
+            if ($param && $param[0]=='unidade_id') {
+                $clausulaWhere[] =  ['unidade_id',  urldecode($param[1])];
+            }
+            if ($param && $param[0]=='user_id') {
+                $clausulaWhere[] =  ['user_id', urldecode($param[1])];
+            }
+            if ($param && $param[0]=='empresa_id') {
+                $clausulaWhere[] =  ['empresa_id',  urldecode($param[1])];
+            }
         }
-       
+
         if (count($clausulaWith)>0) {
             $collection = $class::select()
             ->with($clausulaWith)
