@@ -39,6 +39,10 @@ class CrudController extends Controller
         $this->actions    = $class::getActions();
         $clausulaWith = [];
         $clausulaWhere = [['id','>','0']];
+        if ($model=='estado') {
+            $clausulaWhere = [['UF','>','']];
+        }
+       
         foreach ($showables as $field) {
             if (($field['type']=='fk') && ($field['datatable']=='true')) {
                 $clausulaWith[] = $field['options']['model'];
