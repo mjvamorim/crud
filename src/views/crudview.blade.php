@@ -115,6 +115,15 @@
                                 </div>
                                 @endif
 
+                                @if($field['type']=='datetime') 
+                                <div class= "col-md-2">
+                                    <label>{{$field['title']}}</label>
+                                </div>
+                                <div class= "col-md-{{$field['size']}}">   
+                                    <input class="form-control" type="datetime" name="{{$field['name']}}" id="{{$field['name']}}"/>
+                                </div>
+                                @endif
+
 
                                 @if($field['type']=='money') 
                                 <div class= "col-md-2">
