@@ -277,7 +277,8 @@ $(document).ready(function() {
         "processing": true,
         "serverSide": true,
         "dom": 'Bfrtip',
-        "buttons": ['copy', 'csv', 'excel', 'pdf'],
+        "buttons": ['copy', 'csv', 'excel', 'pdf'], 
+        "paging": false,
         "ajax": "{{ url($get) }}",
         "columns":[
             @foreach ($showables as $field)
