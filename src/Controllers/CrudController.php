@@ -63,6 +63,9 @@ class CrudController extends Controller
             if ($param && $param[0]=='proprietario_id') {
                 $clausulaWhere[] =  ['proprietario_id', urldecode($param[1])];
             }
+            if ($param && $param[0]=='id') {
+                $clausulaWhere[] =  ['id', urldecode($param[1])];
+            }
             if ($param && $param[0]=='unidade_id') {
                 $clausulaWhere[] =  ['unidade_id',  urldecode($param[1])];
             }
@@ -95,7 +98,8 @@ class CrudController extends Controller
                 else {
                     $text = '<div align="center">';
                     foreach($this->actions as $action){
-                        $text .= $action['ini'].$model->id.$action['fim'];
+                        isset($action['campo']) ? $x =  $action['campo'] : $x = 'id';
+                        $text .= $action['ini'].$model->$x.$action['fim'];
                     }
                     $text .= '</div>';
                     return $text;
